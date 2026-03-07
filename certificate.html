@@ -247,110 +247,165 @@
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('certificateForm');
-            const submitBtn = document.getElementById('submitBtn');
-            const btnText = document.getElementById('btnText');
-            const btnIcon = document.getElementById('btnIcon');
-            const btnSpinner = document.getElementById('btnSpinner');
-            const parceirosError = document.getElementById('parceirosError');
-            
-            function validateCheckboxes() {
-                const checkboxes = document.querySelectorAll('input[name="parceiros"]:checked');
-                if (checkboxes.length === 0) {
-                    parceirosError.classList.remove('hidden');
-                    return false;
-                } else {
-                    parceirosError.classList.add('hidden');
-                    return true;
-                }
+        document.addEventListener('DOMContentLoaded', function () {
+
+        const form = document.getElementById('certificateForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const btnIcon = document.getElementById('btnIcon');
+        const btnSpinner = document.getElementById('btnSpinner');
+        const parceirosError = document.getElementById('parceirosError');
+    
+        const downloadContainer = document.getElementById('downloadContainer');
+        const downloadBtn = document.getElementById('downloadBtn');
+    
+        const API_URL = 'https://gerador-de-certificado-3jia.onrender.com/api/certificates/issue';
+    
+    
+        function validateCheckboxes() {
+            const checkboxes = document.querySelectorAll('input[name="parceiros"]:checked');
+    
+            if (checkboxes.length === 0) {
+                parceirosError.classList.remove('hidden');
+                return false;
             }
-            
-            document.querySelectorAll('input[name="parceiros"]').forEach(checkbox => {
-                checkbox.addEventListener('change', validateCheckboxes);
-            });
-            
-            form.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                if (!validateCheckboxes()) {
-                    document.querySelector('.space-y-4').scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'center' 
-                    });
-                    return;
-                }
-                
-                const formData = new FormData(form);
-                
-                const parceiros = [];
-                document.querySelectorAll('input[name="parceiros"]:checked').forEach(checkbox => {
-                    parceiros.push(checkbox.value);
+    
+            parceirosError.classList.add('hidden');
+            return true;
+        }
+    
+    
+        document.querySelectorAll('input[name="parceiros"]').forEach(checkbox => {
+            checkbox.addEventListener('change', validateCheckboxes);
+        });
+    
+    
+        form.addEventListener('submit', async function (e) {
+    
+            e.preventDefault();
+    
+            if (!validateCheckboxes()) {
+                document.querySelector('.space-y-4').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
                 });
-                
-                const data = {
-                    nome: formData.get('nome'),
-                    palestrante: formData.get('orador'),
+                return;
+            }
+    
+    
+            const formData = new FormData(form);
+    
+            const parceiros = [];
+            document.querySelectorAll('input[name="parceiros"]:checked').forEach(checkbox => {
+                parceiros.push(checkbox.value);
+            });
+    
+    
+            const payload = {
+                fullName: formData.get('nome'),
+                answers: {
+                    orador: formData.get('orador'),
                     moderador: formData.get('moderador'),
                     tema: formData.get('tema'),
-                    parceiros: parceiros,
-                    timestamp: new Date().toISOString()
-                };
-                
-                console.log('Dados a serem enviados:', data);
-                
-                btnText.textContent = 'Enviando...';
-                btnIcon.classList.add('hidden');
-                btnSpinner.classList.remove('hidden');
-                submitBtn.disabled = true;
-                submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
-                
-                try {
-                    const API_URL = 'https://api.pade.ao/certificados';
-                    
-                    await new Promise(resolve => setTimeout(resolve, 2000));
-                    
-                    await Swal.fire({
-                        icon: 'success',
-                        title: 'Formulário enviado com sucesso!',
-                        html: `
-                            <p class="mb-3">Seu certificado foi gerado.</p
-                            <p class="mt-4 text-sm text-gray-600">Faça o download abaixo.</p>
-                        `,
-                        confirmButtonColor: '#C9A86C',
-                        confirmButtonText: 'OK',
-                        timer: 5000,
-                        timerProgressBar: true
-                    });
-                    
-                    form.reset();
-                    
-                    parceirosError.classList.add('hidden');
-                    
-                } catch (error) {
-                    console.error('Erro:', error);
-                    await Swal.fire({
-                        icon: 'error',
-                        title: 'Ops! Algo deu errado',
-                        text: 'Não foi possível enviar o formulário. Tente novamente.',
-                        confirmButtonColor: '#C9A86C',
-                        confirmButtonText: 'Tentar novamente'
-                    });
-                    
-                } finally {
-                    btnText.textContent = 'Solicitar Certificado';
-                    btnIcon.classList.remove('hidden');
-                    btnSpinner.classList.add('hidden');
-                    submitBtn.disabled = false;
-                    submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                    parceiros: parceiros
                 }
-            });
-            
-            const emailInput = document.getElementById('email');
-            emailInput.addEventListener('input', function() {
+            };
+    
+    
+            btnText.textContent = 'Enviando...';
+            btnIcon.classList.add('hidden');
+            btnSpinner.classList.remove('hidden');
+    
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+    
+    
+            try {
+    
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+    
+    
+                const result = await response.json();
+    
+                if (!result.ok) {
+                    throw new Error(result.error || "Erro ao gerar certificado");
+                }
+    
+    
+                const pdfBytes = atob(result.pdfBase64);
+                const byteArray = new Uint8Array(pdfBytes.length);
+    
+                for (let i = 0; i < pdfBytes.length; i++) {
+                    byteArray[i] = pdfBytes.charCodeAt(i);
+                }
+    
+                const blob = new Blob([byteArray], { type: "application/pdf" });
+                const url = URL.createObjectURL(blob);
+    
+    
+                downloadBtn.href = url;
+                downloadBtn.download = result.pdfFilename;
+    
+                downloadContainer.classList.remove('hidden');
+    
+    
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'Certificado gerado!',
+                    html: `
+                        <p class="mb-3">Seu certificado foi criado com sucesso.</p>
+                        <p class="text-sm text-gray-600">Clique no botão abaixo para baixar.</p>
+                    `,
+                    confirmButtonColor: '#C9A86C',
+                    confirmButtonText: 'OK'
+                });
+    
+    
+                form.reset();
+                parceirosError.classList.add('hidden');
+    
+    
+            } catch (error) {
+    
+                console.error(error);
+    
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'Ops! Algo deu errado',
+                    text: 'Não foi possível gerar o certificado.',
+                    confirmButtonColor: '#C9A86C',
+                    confirmButtonText: 'Tentar novamente'
+                });
+    
+            } finally {
+    
+                btnText.textContent = 'Solicitar Certificado';
+                btnIcon.classList.remove('hidden');
+                btnSpinner.classList.add('hidden');
+    
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+    
+            }
+    
+        });
+    
+    
+        const emailInput = document.getElementById('email');
+    
+        if (emailInput) {
+            emailInput.addEventListener('input', function () {
+    
                 const email = this.value;
+    
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                
+    
                 if (email && !emailRegex.test(email)) {
                     this.classList.add('border-red-500', 'focus:border-red-500');
                     this.classList.remove('focus:border-[#C9A86C]');
@@ -358,19 +413,34 @@
                     this.classList.remove('border-red-500', 'focus:border-red-500');
                     this.classList.add('focus:border-[#C9A86C]');
                 }
+    
             });
-            
-            const nomeInput = document.getElementById('nome');
-            nomeInput.addEventListener('input', function() {
+        }
+    
+    
+        const nomeInput = document.getElementById('nome');
+    
+        if (nomeInput) {
+    
+            nomeInput.addEventListener('input', function () {
+    
                 let value = this.value;
+    
                 if (value.length > 0) {
-                    value = value.toLowerCase().replace(/(?:^|\s)\S/g, function(char) {
+    
+                    value = value.toLowerCase().replace(/(?:^|\s)\S/g, function (char) {
                         return char.toUpperCase();
                     });
+    
                     this.value = value;
+    
                 }
+    
             });
-        });
+    
+        }
+    
+    });
     </script>
 </body>
 </html>
