@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PADE - Programa de Apoio e Desenvolvimento Estudantil</title>
+    <link rel="shortcut icon" href="icons/logo.png" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        .hero-bg-mobile {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/f461e8102a2141249b921e7bb766a425.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <nav class="bg-[#0B2B40] text-white py-4 px-6 md:px-12 lg:px-20 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-20 h-20 bg-[#C9A86C] rounded-lg flex items-center justify-center">
+                    <img src="icons/logo.png" alt="">
+                </div>
+                <span class="font-semibold text-lg md:text-xl">PADE</span>
+            </div>
+            
+            <a href="" class="hidden md:block bg-[#C9A86C] hover:bg-[#B8934F] text-[#0B2B40] font-semibold py-2 px-6 rounded-lg transition duration-300">
+                Obter Certificado
+            </a>
+        </div>
+    </nav>
+
+    <!-- Seção da Hero -->
+    <section class="relative min-h-[calc(100vh-80px)]">
+        <div class="hidden md:block max-w-7xl mx-auto px-6 lg:px-20 py-16">
+            <div class="flex items-center gap-12">
+                <div class="flex-1">
+                    <h1 class="text-4xl lg:text-5xl xl:text-6xl font-bold text-[#0B2B40] leading-tight">
+                        Programa de Apoio e<br>Desenvolvimento<br>Estudantil
+                    </h1>
+                    <p class="text-lg text-gray-600 mt-6 max-w-lg">
+                        Transformando vidas através da educação e suporte acadêmico
+                    </p>
+                    <button class="mt-8 bg-[#C9A86C] hover:bg-[#B8934F] text-[#0B2B40] font-semibold py-3 px-8 rounded-lg text-lg transition duration-300">
+                        Obter Certificado
+                    </button>
+                </div>
+                
+                <div class="flex-1 flex justify-center">
+                    <img src="images/f461e8102a2141249b921e7bb766a425.jpg" 
+                         alt="Hero" 
+                         class="rounded-2xl shadow-2xl w-full max-w-[448px] lg:max-w-[560px] xl:max-w-[672px] h-auto">
+                </div>
+            </div>
+        </div>
+
+        <div class="md:hidden hero-bg-mobile min-h-[calc(100vh-80px)] flex items-end pb-20">
+            <div class="w-full px-6 text-white">
+                <h1 class="text-3xl font-bold leading-tight mb-4">
+                    Programa de Apoio e Desenvolvimento Estudantil
+                </h1>
+                <p class="text-lg text-gray-200 mb-6">
+                    Transformando vidas através da educação e suporte acadêmico
+                </p>
+                <a href="" class="w-full bg-[#C9A86C] hover:bg-[#B8934F] text-[#0B2B40] font-semibold py-3 px-8 rounded-lg text-lg transition duration-300">
+                    Obter Certificado
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Parceiros -->
+    <section class="py-16 md:py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6 lg:px-20">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-[#0B2B40] mb-4">
+                Nossos Parceiros
+            </h2>
+            <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+                Instituições que confiam e apoiam o desenvolvimento estudantil
+            </p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8 justify-center items-center flex">
+                <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition duration-300 flex items-center justify-center">
+                    <div class="w-full h-24 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400">
+                        <img src="icons/IMG-20260307-WA0081.jpg" alt="">
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition duration-300 flex items-center justify-center">
+                    <div class="w-full h-24 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400">
+                        <img src="icons/IMG-20260307-WA0082.jpg" alt="">
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition duration-300 flex items-center justify-center">
+                    <div class="w-full h-24 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400">
+                        <img src="icons/IMG-20260307-WA0086.jpg" alt="">
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition duration-300 flex items-center justify-center">
+                    <div class="w-full h-24 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400">
+                        <img src="icons/IMG-20260307-WA0089.jpg" alt="">
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#0B2B40] text-white py-6">
+        <div class="max-w-7xl mx-auto px-6 lg:px-20 text-center text-sm">
+            <p>&copy; 2026 PADE - Programa de Apoio e Desenvolvimento Estudantil. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
