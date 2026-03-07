@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PADE - Certificado</title>
+    <link rel="shortcut icon" href="icons/logo.png" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .form-transition {
+            transition: all 0.3s ease;
+        }
+        
+        .input-focus-effect:focus {
+            box-shadow: 0 0 0 3px rgba(201, 168, 108, 0.2);
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #C9A86C;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            background-color: white;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        
+        .custom-checkbox:checked {
+            background-color: #C9A86C;
+            border-color: #C9A86C;
+        }
+        
+        .custom-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            color: #0B2B40;
+            font-size: 14px;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .custom-checkbox:hover {
+            border-color: #C9A86C;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <nav class="bg-[#0B2B40] text-white py-4 px-6 md:px-12 lg:px-20 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2 hover:opacity-90 transition">
+                <div class="w-20 h-20 bg-[#C9A86C] rounded-lg flex items-center justify-center">
+                      <img src="icons/logo.png" alt="">
+                </div>
+                <span class="font-semibold text-lg md:text-xl">PADE</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="flex-grow py-12 md:py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-10">
+                <h1 class="text-3xl md:text-4xl font-bold text-[#0B2B40] mb-4">
+                    Formulário de Certificado
+                </h1>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Preencha os dados abaixo para receber seu certificado no email
+                </p>
+                <div class="w-24 h-1 bg-[#C9A86C] mx-auto mt-4 rounded-full"></div>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 lg:p-10 border border-gray-100">
+                <form id="certificateForm" class="space-y-8">
+                    <div class="space-y-2">
+                        <label for="nome" class="block text-sm font-semibold text-[#0B2B40] uppercase tracking-wide">
+                            Nome Completo <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" 
+                               id="nome" 
+                               name="nome" 
+                               required
+                               placeholder="Digite seu nome completo"
+                               class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#C9A86C] focus:ring-2 focus:ring-[#C9A86C] focus:ring-opacity-20 outline-none transition form-transition input-focus-effect">
+                        <p class="text-xs text-gray-500 mt-1">Exatamente como deseja que apareça no certificado</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label for="palestrante" class="block text-sm font-semibold text-[#0B2B40] uppercase tracking-wide">
+                                Orador Principal <span class="text-red-500">*</span>
+                            </label>
+                            <select id="palestrante" 
+                                    name="orador" 
+                                    required
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#C9A86C] focus:ring-2 focus:ring-[#C9A86C] focus:ring-opacity-20 outline-none transition bg-white">
+                                <option value="">Selecione o palestrante</option>
+                                <option value="Carlos Santos">Carlos Santos</option>
+                                <option value="Elizandro da Cruz">Elizandro da Cruz</option>
+                                <option value="João Mendes">João Mendes</option>
+                                <option value="Robson Paniago">Robson Paniago</option>
+                            </select>
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label for="moderador" class="block text-sm font-semibold text-[#0B2B40] uppercase tracking-wide">
+                                Moderador da Atividade <span class="text-red-500">*</span>
+                            </label>
+                            <select id="moderador" 
+                                    name="moderador" 
+                                    required
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#C9A86C] focus:ring-2 focus:ring-[#C9A86C] focus:ring-opacity-20 outline-none transition bg-white">
+                                <option value="">Selecione o moderador</option>
+                                <option value="Ricardo Lopes">João Jorge</option>
+                                <option value="Hélio Manuel">Hélio Manuel</option>
+                                <option value="Pedro Almeida">Pedro Almeida</option>
+                                <option value="Gomes Mbala">Gomes Mbala</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label for="tema" class="block text-sm font-semibold text-[#0B2B40] uppercase tracking-wide">
+                            Tema da Atividade <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" 
+                               id="tema" 
+                               name="tema" 
+                               required
+                               placeholder="Digite o tema principal da atividade"
+                               class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#C9A86C] focus:ring-2 focus:ring-[#C9A86C] focus:ring-opacity-20 outline-none transition form-transition input-focus-effect">
+                    </div>
+                    
+
+                    <div class="space-y-4">
+                        <label class="block text-sm font-semibold text-[#0B2B40] uppercase tracking-wide">
+                            Parceiros da PADE <span class="text-red-500">*</span>
+                        </label>
+                        <p class="text-sm text-gray-600 -mt-2 mb-3">Selecione todos os parceiros que participaram</p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <label class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition">
+                                <input type="checkbox" 
+                                       name="parceiros" 
+                                       value="ti360" 
+                                       class="custom-checkbox">
+                                <span class="text-gray-700 font-medium">TI360</span>
+                            </label>
+                            
+                            <label class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition">
+                                <input type="checkbox" 
+                                       name="parceiros" 
+                                       value="caf" 
+                                       class="custom-checkbox">
+                                <span class="text-gray-700 font-medium">Árvore da Felicidade</span>
+                            </label>
+
+                            <label class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition">
+                                <input type="checkbox" 
+                                       name="parceiros" 
+                                       value="nexmind" 
+                                       class="custom-checkbox">
+                                <span class="text-gray-700 font-medium">NexMind</span>
+                            </label>
+                            
+                            <label class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition">
+                                <input type="checkbox" 
+                                       name="parceiros" 
+                                       value="linkup" 
+                                       class="custom-checkbox">
+                                <span class="text-gray-700 font-medium">LinkUp</span>
+                            </label>
+                            
+                            <label class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition">
+                                <input type="checkbox" 
+                                       name="parceiros" 
+                                       value="ggpen" 
+                                       class="custom-checkbox">
+                                <span class="text-gray-700 font-medium">GGPEN</span>
+                            </label>
+                            
+                            <label class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition">
+                                <input type="checkbox" 
+                                       name="parceiros" 
+                                       value="onu" 
+                                       class="custom-checkbox">
+                                <span class="text-gray-700 font-medium">ONU</span>
+                            </label>
+                        </div>
+                        
+                        <p id="parceirosError" class="text-red-500 text-sm hidden mt-2">
+                            Selecione pelo menos um parceiro
+                        </p>
+                    </div>
+                    
+                    <div class="pt-6 border-t border-gray-200">
+                        <button type="submit" 
+                                id="submitBtn"
+                                class="w-full bg-[#0B2B40] hover:bg-[#1a3f5a] text-white font-bold py-4 px-6 rounded-lg transition duration-300 text-lg flex items-center justify-center space-x-2 group">
+                            <span id="btnText">Solicitar Certificado</span>
+                            <span id="btnIcon" class="text-xl group-hover:translate-x-1 transition-transform">→</span>
+                            <span id="btnSpinner" class="hidden spinner ml-2"></span>
+                        </button>
+                        
+                        <p class="text-center text-sm text-gray-500 mt-4">
+                            Ao enviar, você concorda em receber o certificado no e-mail informado
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-[#0B2B40] text-white py-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-6 lg:px-20 text-center text-sm">
+            <p>&copy; 2026 PADE - Programa de Apoio e Desenvolvimento Estudantil. Todos os direitos reservados.</p>
+            <p class="text-gray-400 text-xs mt-2">Certificação oficial</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('certificateForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnIcon = document.getElementById('btnIcon');
+            const btnSpinner = document.getElementById('btnSpinner');
+            const parceirosError = document.getElementById('parceirosError');
+            
+            function validateCheckboxes() {
+                const checkboxes = document.querySelectorAll('input[name="parceiros"]:checked');
+                if (checkboxes.length === 0) {
+                    parceirosError.classList.remove('hidden');
+                    return false;
+                } else {
+                    parceirosError.classList.add('hidden');
+                    return true;
+                }
+            }
+            
+            document.querySelectorAll('input[name="parceiros"]').forEach(checkbox => {
+                checkbox.addEventListener('change', validateCheckboxes);
+            });
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                if (!validateCheckboxes()) {
+                    document.querySelector('.space-y-4').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                    return;
+                }
+                
+                const formData = new FormData(form);
+                
+                const parceiros = [];
+                document.querySelectorAll('input[name="parceiros"]:checked').forEach(checkbox => {
+                    parceiros.push(checkbox.value);
+                });
+                
+                const data = {
+                    nome: formData.get('nome'),
+                    palestrante: formData.get('orador'),
+                    moderador: formData.get('moderador'),
+                    tema: formData.get('tema'),
+                    parceiros: parceiros,
+                    timestamp: new Date().toISOString()
+                };
+                
+                console.log('Dados a serem enviados:', data);
+                
+                btnText.textContent = 'Enviando...';
+                btnIcon.classList.add('hidden');
+                btnSpinner.classList.remove('hidden');
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+                
+                try {
+                    const API_URL = 'https://api.pade.ao/certificados';
+                    
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    
+                    await Swal.fire({
+                        icon: 'success',
+                        title: 'Formulário enviado com sucesso!',
+                        html: `
+                            <p class="mb-3">Seu certificado foi gerado.</p
+                            <p class="mt-4 text-sm text-gray-600">Faça o download abaixo.</p>
+                        `,
+                        confirmButtonColor: '#C9A86C',
+                        confirmButtonText: 'OK',
+                        timer: 5000,
+                        timerProgressBar: true
+                    });
+                    
+                    form.reset();
+                    
+                    parceirosError.classList.add('hidden');
+                    
+                } catch (error) {
+                    console.error('Erro:', error);
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'Ops! Algo deu errado',
+                        text: 'Não foi possível enviar o formulário. Tente novamente.',
+                        confirmButtonColor: '#C9A86C',
+                        confirmButtonText: 'Tentar novamente'
+                    });
+                    
+                } finally {
+                    btnText.textContent = 'Solicitar Certificado';
+                    btnIcon.classList.remove('hidden');
+                    btnSpinner.classList.add('hidden');
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                }
+            });
+            
+            const emailInput = document.getElementById('email');
+            emailInput.addEventListener('input', function() {
+                const email = this.value;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                
+                if (email && !emailRegex.test(email)) {
+                    this.classList.add('border-red-500', 'focus:border-red-500');
+                    this.classList.remove('focus:border-[#C9A86C]');
+                } else {
+                    this.classList.remove('border-red-500', 'focus:border-red-500');
+                    this.classList.add('focus:border-[#C9A86C]');
+                }
+            });
+            
+            const nomeInput = document.getElementById('nome');
+            nomeInput.addEventListener('input', function() {
+                let value = this.value;
+                if (value.length > 0) {
+                    value = value.toLowerCase().replace(/(?:^|\s)\S/g, function(char) {
+                        return char.toUpperCase();
+                    });
+                    this.value = value;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
